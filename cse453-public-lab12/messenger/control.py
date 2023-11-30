@@ -2,8 +2,8 @@
 # COMPONENT:
 #    CONTROL
 # Author:
-#    Br. Helfrich, Kyle Mueller, <your name here if you made a change>
-# Summary: 
+#    Br. Helfrich, Kyle Mueller, Eric, Nichole, Nicholas, Julie, and Austin
+# Summary:
 #    This class stores the notion of Bell-LaPadula
 ########################################################################
 
