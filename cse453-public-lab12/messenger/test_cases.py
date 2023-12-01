@@ -1,4 +1,8 @@
 '''
+To run tests with pytest, use the pytest command in the terminal:
+pytest test_cases.py
+
+
 All messages are accessible to all users. Any user can view any message  
 
 All messages are accessible to all users. Any user can add any message  
@@ -31,54 +35,57 @@ The program session does not expire after a set period of disuse
 
 All test cases should have an input, a name or scenario for the testcase, and an expected output. Above are example threats we gathered from the Week 09 Lab. 
 '''
-import main
+
+# import pytest
 import interact
 import messages
 import message
 import control
 
 # Similar to the message program, this test set does not check access control, yet.
+
 def test_login() -> dict:
     return {
         "name": "Login with valid username and password",
         "cases": {
-            "AdmiralAbe": "password",
-            "CaptainCharlie": "password",
-            "SeamanSam": "password",
-            "SeamanSue": "password",
+            "AdmiralAbe": "ch0ppedLiver",
+            "CaptainCharlie": "ch0ppedWood",
+            "SeamanSam": "ch0ppedCelery",
+            "SeamanSue": "Pa$$word",
             "SeamanSly": "password",
             "Murffkins": "password"
         },
-        "expected": "Welcome, {username}. Please select an option: "
+        "expected": [
+            False, # invalid login
+            False, # invalid login
+            False, # invalid login
+            False, # invalid login
+            True, # valid login
+            False # invalid login
+        ]        
     }
 
-# def test_view_messages() -> dict:
-#     return {
-#         "name": "Valid user can view list of message properties",
-#         "cases": {
-#             "AdmiralAbe": "Password",
-#             "CaptainCharlie": "password",
-#             "SeamanSam": "password",
-#             "SeamanSue": "password",
-#             "SeamanSly": "password",
-#             "Murffkins": "password"
-#         },
-#         "expected": message.display_properties(message)
-#     }
 
 def login_test_generator(username, password):
     interact_ = interact.Interact(username, password, messages)
-    return interact_ # return the Interact object
+    return interact_.authenticate(username, password) # return True if the login was valid, False otherwise
+
+
+# def login_test_generator(username, password):
+#     interact_ = interact.Interact(username, password, messages)
+#     return interact_ # return the Interact object
 
 def run_tests(test_set: dict):
     print("\n{}\n".format(test_set.get("name")))
     cases = test_set.get('cases')
-    for username, password in cases.items():
-        expected = test_set["expected"].format(username=username)
+    expected = test_set.get('expected')
+    for i, (username, password) in enumerate(cases.items()):
         actual = login_test_generator(username, password)
-        print("Expected:", expected)
-        print("Actual:", f"Welcome, {actual._username}. Please select an option:\n")
+        print("Expected:", expected[i])
+        print("Actual:", actual)
+        print("Result:", actual == expected[i]) # True if the values are equal, False otherwise
         print("===================")
+
         
 def driver_program():
     print_menu()
@@ -98,7 +105,7 @@ def driver_program():
             continue
         if choice == "q":
             break
-        print("Invalid choice. Please chose out of available.")
+        print("Invalid choice. Please make a choice from the available options.")
 
 
 def print_menu():

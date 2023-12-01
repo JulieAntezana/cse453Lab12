@@ -10,7 +10,8 @@
 ########################################################################
 
 from os import path
-import interact, messages
+import interact
+import messages
 
 # Gets the absolute path of the "messages.txt" file
 FILE_NAME = path.join(path.dirname(path.abspath(__file__)), "messages.txt")
@@ -54,8 +55,13 @@ def session(messages):
     interact.display_users()
     username = simple_prompt("\nWhat is your username? ")
     password = simple_prompt("What is your password? ")
-
     interact_ = interact.Interact(username, password, messages)
+    # BLP: Authenticate the user and get their control level
+    user_level = interact_.authenticate(username, password)
+    if user_level is None:
+        print("Invalid username or password.")
+        return
+
     print(f"\nWelcome, {username}. Please select an option:\n")
     display_options()
 

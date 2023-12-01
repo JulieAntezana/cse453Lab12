@@ -7,24 +7,36 @@
 #    This class allows one user to interact with the system
 ########################################################################
 
-import messages, control
+import messages
+import control
 
 ###############################################################
 # USER
 # User has a name and a password
 ###############################################################
 class User:
-    def __init__(self, name, password):
+    def __init__(self, name, password, level):
         self.name = name
         self.password = password
+        self.level = level # added code: security level
 
 userlist = [
-   [ "AdmiralAbe",     "password" ],  
-   [ "CaptainCharlie", "password" ], 
-   [ "SeamanSam",      "password" ],
-   [ "SeamanSue",      "password" ],
-   [ "SeamanSly",      "password" ]
+   [ "AdmiralAbe",     "password", control.Level.SECRET ],  # added code: security level
+   [ "CaptainCharlie", "password", control.Level.PRIVILEGED ], # added code: security level
+   [ "SeamanSam",      "password", control.Level.CONFIDENTIAL ], # added code: security level
+   [ "SeamanSue",      "password", control.Level.CONFIDENTIAL ], # added code: security level
+   [ "SeamanSly",      "password", control.Level.CONFIDENTIAL ],
+   [ "Murffkins",      "password", control.Level.PUBLIC ] # added code: security level
 ]
+
+
+# userlist = [
+#    [ "AdmiralAbe",     "password" ],  
+#    [ "CaptainCharlie", "password" ], 
+#    [ "SeamanSam",      "password" ],
+#    [ "SeamanSue",      "password" ],
+#    [ "SeamanSly",      "password" ]
+# ]
 
 ###############################################################
 # USERS
@@ -45,17 +57,18 @@ class Interact:
     # Authenticate the user and get him/her all set up
     ##################################################
     def __init__(self, username, password, messages):
-        self._authenticate(username, password)
+        self.authenticate(username, password)
         self._username = username
         self._p_messages = messages
+        #self._level = level # added code: security level
 
     ##################################################
     # INTERACT :: SHOW
     # Show a single message
     ##################################################
     def show(self):
-        id_ = self._prompt_for_id("display")
-        if not self._p_messages.show(id_):
+        id_ = self._prompt_for_id("display") #Get the message id from the user input
+        if not self._p_messages.show(id_): #
             print(f"ERROR! Message ID \'{id_}\' does not exist")
         print()
 
@@ -114,9 +127,26 @@ class Interact:
     # INTERACT :: AUTHENTICATE
     # Authenticate the user: find their control level
     ################################################## 
-    def _authenticate(self, username, password):
+
+    def authenticate(self, username, password):
         id_ = self._id_from_user(username)
+        level_ = control.get_security_level(users[id_])
         return ID_INVALID != id_ and password == users[id_].password
+    
+    # def authenticate(self, username, password):
+    #     id_ = self._id_from_user(username)
+    #     if ID_INVALID != id_ and password == users[id_].password:
+    #         return control.get_security_level(users[id_])
+    #     else:
+    #         return None
+
+    # def authenticate(self, username, password):
+    #     id_ = self._id_from_user(username)
+    #     return ID_INVALID != id_ and password == users[id_].password
+    
+    # def is_valid(self):
+    #     # check if the username and password match any pair in the userlist
+    #     return [self._username, self.password] in userlist
 
     ##################################################
     # INTERACT :: ID FROM USER
@@ -128,10 +158,10 @@ class Interact:
                 return id_user
         return ID_INVALID
 
-#####################################################
-# INTERACT :: DISPLAY USERS
-# Display the set of users in the system
-#####################################################
+    #####################################################
+    # INTERACT :: DISPLAY USERS
+    # Display the set of users in the system
+    #####################################################
 def display_users():
     for user in users:
         print(f"\t{user.name}")
