@@ -29,15 +29,6 @@ userlist = [
    [ "Murffkins",      "password", control.Level.PUBLIC ] # added code: security level
 ]
 
-
-# userlist = [
-#    [ "AdmiralAbe",     "password" ],  
-#    [ "CaptainCharlie", "password" ], 
-#    [ "SeamanSam",      "password" ],
-#    [ "SeamanSue",      "password" ],
-#    [ "SeamanSly",      "password" ]
-# ]
-
 ###############################################################
 # USERS
 # All the users currently in the system
@@ -57,19 +48,31 @@ class Interact:
     # Authenticate the user and get him/her all set up
     ##################################################
     def __init__(self, username, password, messages):
-        self.authenticate(username, password)
+        self._user_level = self.authenticate(username, password)
         self._username = username
         self._p_messages = messages
         #self._level = level # added code: security level
+    def get_user_level(self):  # New getter method
+        return self._user_level
 
     ##################################################
     # INTERACT :: SHOW
     # Show a single message
     ##################################################
+
     def show(self):
         id_ = self._prompt_for_id("display") #Get the message id from the user input
-        if not self._p_messages.show(id_): #
+        print(f"ID: {id_}")
+        message = self._p_messages.show(id_) # Get the message with the given ID
+        print(f"Message: {message}")
+        if message is None:
             print(f"ERROR! Message ID \'{id_}\' does not exist")
+        else:
+            text_control = control.get_security_level(message) # Get the message security level
+            if text_control is None or not control.is_authorized(self._user_level, text_control, "read"): # Check if the user is authorized to read the message
+                print(f"ERROR! You are not authorized to read message ID \'{id_}\'")
+            else:
+                message.display_text()
         print()
 
     ##################################################
@@ -87,8 +90,8 @@ class Interact:
     ################################################## 
     def add(self):
         self._p_messages.add(self._prompt_for_line("message"),
-                             self._username,
-                             self._prompt_for_line("date"))
+        self._username,
+        self._prompt_for_line("date"))
 
     ##################################################
     # INTERACT :: UPDATE
@@ -128,26 +131,13 @@ class Interact:
     # Authenticate the user: find their control level
     ################################################## 
 
-    def authenticate(self, username, password):
+    def authenticate(self, username, password):  # Changed here
         id_ = self._id_from_user(username)
-        level_ = control.get_security_level(users[id_])
-        return ID_INVALID != id_ and password == users[id_].password
+        if ID_INVALID != id_ and password == users[id_].password:
+            return control.get_security_level(users[id_]) # Return the user's security level
+        else:
+            return None
     
-    # def authenticate(self, username, password):
-    #     id_ = self._id_from_user(username)
-    #     if ID_INVALID != id_ and password == users[id_].password:
-    #         return control.get_security_level(users[id_])
-    #     else:
-    #         return None
-
-    # def authenticate(self, username, password):
-    #     id_ = self._id_from_user(username)
-    #     return ID_INVALID != id_ and password == users[id_].password
-    
-    # def is_valid(self):
-    #     # check if the username and password match any pair in the userlist
-    #     return [self._username, self.password] in userlist
-
     ##################################################
     # INTERACT :: ID FROM USER
     # Find the ID of a given user
