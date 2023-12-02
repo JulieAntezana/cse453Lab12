@@ -118,7 +118,8 @@ class Interact:
         if not message:
             print(f"ERROR! Message ID \'{id_}\' does not exist\n")
             return
-        if control.access_rights(self._level, message.get_security_level(), "write"):
+        if (control.access_rights(self._level, message.get_security_level(), "read") and
+                control.access_rights(self._level, message.get_security_level(), "write")):
             self._p_messages.update(id_, self._prompt_for_line("message"))
             return
         print(f"Dear {self._username}, unfortunately you can't update a message that has "
