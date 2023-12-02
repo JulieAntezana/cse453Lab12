@@ -56,24 +56,21 @@ def test_login() -> dict:
             "Murffkins": "password"
         },
         "expected": [
-            False, # invalid login
-            False, # invalid login
-            False, # invalid login
-            False, # invalid login
-            True, # valid login
-            False # invalid login
+            "Invalid username or password.", # invalid login
+            "Invalid username or password.", # invalid login
+            "Invalid username or password.", # invalid login
+            "Invalid username or password.", # invalid login
+            "Welcome, SeamanSly. Please select an option:", # valid login
+            "Invalid username or password." # invalid login
         ]        
     }
 
 
 def login_test_generator(username, password):
     interact_ = interact.Interact(username, password, messages)
-    return interact_.authenticate(username, password) # return True if the login was valid, False otherwise
-
-
-# def login_test_generator(username, password):
-#     interact_ = interact.Interact(username, password, messages)
-#     return interact_ # return the Interact object
+    if interact_.get_user_level() is None:
+        return "Invalid username or password."
+    return f"Welcome, {username}. Please select an option:"
 
 def run_tests(test_set: dict):
     print("\n{}\n".format(test_set.get("name")))
@@ -83,10 +80,10 @@ def run_tests(test_set: dict):
         actual = login_test_generator(username, password)
         print("Expected:", expected[i])
         print("Actual:", actual)
-        print("Result:", actual == expected[i]) # True if the values are equal, False otherwise
+        # Use a conditional expression to print "Pass" or "Fail"
+        print("Result:", "Pass" if actual == expected[i] else "Fail")
         print("===================")
-
-        
+       
 def driver_program():
     print_menu()
 
