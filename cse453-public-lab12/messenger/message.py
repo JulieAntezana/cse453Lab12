@@ -9,12 +9,12 @@
 
 import control
 
+
 ##################################################
 # MESSAGE
 # One message to be displayed to the user or not
 ##################################################
 class Message:
-
     # Static variable for the next id
     _id_next = 100
 
@@ -25,6 +25,7 @@ class Message:
     def __init__(self):
         self._empty = True
         self._text = "Empty"
+        self._text_control = None
         self._author = ""
         self._date = ""
         self._id = Message._id_next
@@ -34,8 +35,9 @@ class Message:
     # MESSAGE NON-DEFAULT CONSTRUCTOR
     # Create a message and fill it
     ##################################################   
-    def __init__(self, text, author, date):
+    def __init__(self, text, text_control, author, date):
         self._text = text
+        self._text_control = text_control
         self._author = author
         self._date = date
         self._id = Message._id_next
@@ -66,6 +68,9 @@ class Message:
     def display_text(self):
         print(f"\tMessage: {self._text}")
 
+    def get_security_level(self):
+        return self._text_control
+
     ##################################################
     # MESSAGE :: UPDATE TEXT
     # Update the contents or text of the message
@@ -79,6 +84,7 @@ class Message:
     ################################################## 
     def clear(self):
         self._text = "Empty"
+        self._text_control = ""
         self._author = ""
         self._date = ""
         self._empty = True
