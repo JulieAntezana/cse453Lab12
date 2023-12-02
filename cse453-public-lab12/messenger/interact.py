@@ -95,12 +95,18 @@ class Interact:
     # Add a single message
     ################################################## 
     def add(self):
+        lvl = self._prompt_for_line("level"),
+        if type(lvl) is tuple:
+            lvl = control.parse_security_level(lvl[0])
+        if not control.access_rights(self._level, lvl, "write"):
+            print(f"Dear {self._username}, unfortunately you can't add a message that has "
+                  f"{lvl.name.lower()} level.")
+            return
         text = self._prompt_for_line("message"),
         if type(text) is tuple:
             text = text[0]
         date = self._prompt_for_line("date")
-        if control.access_rights(self._level, self._level, "write"):
-            self._p_messages.add(text, self._level, self._username, date)
+        self._p_messages.add(text, lvl, self._username, date)
 
     ##################################################
     # INTERACT :: UPDATE
@@ -125,7 +131,8 @@ class Interact:
     def remove(self):
         message_id = self._prompt_for_id("delete")
         message = self._p_messages.read_message(message_id)
-        if control.access_rights(self._level, message.get_security_level(), "write"):
+        if (control.access_rights(self._level, message.get_security_level(), "read") and
+                control.access_rights(self._level, message.get_security_level(), "write")):
             self._p_messages.remove(message_id)
             return
         print(f"Dear {self._username}, unfortunately you can't delete a message that has "

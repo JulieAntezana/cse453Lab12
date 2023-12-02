@@ -65,9 +65,12 @@ class Messages:
     # Remove a single message
     ################################################## 
     def remove(self, id):
+        message_to_be_deleted = None
         for m in self._messages:
             if m.get_id() == id:
                 m.clear()
+                message_to_be_deleted = m
+        self._messages.remove(message_to_be_deleted)
 
     ##################################################
     # MESSAGES :: ADD
