@@ -7,7 +7,9 @@
 #    This class stores the notion of a collection of messages
 ########################################################################
 
-import control, message
+import control
+import message
+
 
 ##################################################
 # MESSAGES
@@ -37,8 +39,7 @@ class Messages:
     ################################################## 
     def display(self, user_level):
         for m in self._messages:
-            message_control = control.get_security_level(m)
-            if control.is_authorized(user_level, message_control, "read"):
+            if control.access_rights(user_level, m.get_security_level(), "read"):
                 m.display_properties()
 
     ##################################################
@@ -48,10 +49,7 @@ class Messages:
     def show(self, id):
         for m in self._messages:
             if m.get_id() == id:
-                print(f"Message: {m}")
-                # m.display_text()
-                return m
-        return None
+                m.display_text()
 
     ##################################################
     # MESSAGES :: UPDATE
@@ -75,9 +73,14 @@ class Messages:
     # MESSAGES :: ADD
     # Add a new message
     ################################################## 
-    def add(self, text, text_control, author, date):
+    def add(self, text: str, text_control: control.Level, author: str, date):
         m = message.Message(text, text_control, author, date)
         self._messages.append(m)
+
+    def read_message(self, message_id):
+        for m in self._messages:
+            if m.get_id() == message_id:
+                return m
 
     ##################################################
     # MESSAGES :: READ MESSAGES
@@ -88,7 +91,8 @@ class Messages:
             with open(filename, "r") as f:
                 for line in f:
                     text_control, author, date, text = line.split('|')
-                    self.add(text.rstrip('\r\n'), text_control, author, date)
+                    lvl = control.parse_security_level(text_control)
+                    self.add(text.rstrip('\r\n'), lvl, author, date)
 
         except FileNotFoundError:
             print(f"ERROR! Unable to open file \"{filename}\"")

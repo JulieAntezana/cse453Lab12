@@ -9,12 +9,12 @@
 
 import control
 
+
 ##################################################
 # MESSAGE
 # One message to be displayed to the user or not
 ##################################################
 class Message:
-
     # Static variable for the next id
     _id_next = 100
 
@@ -67,6 +67,9 @@ class Message:
     ################################################## 
     def display_text(self):
         print(f"\tMessage: {self._text}")
+
+    def get_security_level(self):
+        return self._text_control
 
     ##################################################
     # MESSAGE :: UPDATE TEXT
