@@ -9,8 +9,6 @@
 # constants for security levels
 from enum import Enum
 
-
-
 class Level(Enum): 
     PUBLIC = 0
     CONFIDENTIAL = 1
@@ -34,7 +32,7 @@ def get_security_level(obj):
     elif hasattr(obj, '_text_control'):
         print(f"_text_control: {obj._text_control}")
         text_control = obj._text_control.lower()
-        print(f"_text_control: {obj._text_control}")
+        print(f"text_control: {obj._text_control}")
         # return the security level based on the level attribute
         if obj._text_control == "Secret":
             return Level.SECRET

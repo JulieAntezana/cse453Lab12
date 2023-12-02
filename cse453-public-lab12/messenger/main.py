@@ -56,7 +56,7 @@ def session(messages):
     username = simple_prompt("\nWhat is your username? ")
     password = simple_prompt("What is your password? ")
     interact_ = interact.Interact(username, password, messages)
-    if interact_.get_user_level is None:
+    if interact_.get_user_level() is None:
         print("Invalid username or password.")
         return
 
