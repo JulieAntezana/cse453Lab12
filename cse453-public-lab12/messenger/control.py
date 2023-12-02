@@ -30,9 +30,9 @@ def get_security_level(obj):
             return Level.PUBLIC
     # check if the object is a message
     elif hasattr(obj, '_text_control'):
-        print(f"_text_control: {obj._text_control}")
+        #print(f"_text_control: {obj._text_control}")
         text_control = obj._text_control.lower()
-        print(f"text_control: {obj._text_control}")
+        #print(f"text_control: {obj._text_control}")
         # return the security level based on the level attribute
         if obj._text_control == "Secret":
             return Level.SECRET

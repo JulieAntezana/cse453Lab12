@@ -79,9 +79,10 @@ class Interact:
     # INTERACT :: DISPLAY
     # Display the set of messages
     ################################################## 
+
     def display(self):
         print("Messages:")
-        self._p_messages.display()
+        self._p_messages.display(self._user_level)
         print()
 
     ##################################################

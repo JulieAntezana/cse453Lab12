@@ -16,6 +16,14 @@ import control, message
 class Messages:
 
     ##################################################
+    # MESSAGES ITERATOR
+    # Make messages iterable
+    ##################################################
+
+    def __iter__(self):
+        return iter(self._messages)
+
+    ##################################################
     # MESSAGES CONSTRUCTOR
     # Read a file to fill the messages
     ##################################################
@@ -27,9 +35,11 @@ class Messages:
     # MESSAGES :: DISPLAY
     # Display the list of messages
     ################################################## 
-    def display(self):
+    def display(self, user_level):
         for m in self._messages:
-            m.display_properties()
+            message_control = control.get_security_level(m)
+            if control.is_authorized(user_level, message_control, "read"):
+                m.display_properties()
 
     ##################################################
     # MESSAGES :: SHOW
