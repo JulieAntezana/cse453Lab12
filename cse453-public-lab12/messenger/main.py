@@ -35,6 +35,10 @@ def open_session():
 def display_options():
     print("\td .. Display the list of messages\n" +
           "\tdu .. Display the list of users\n" +
+          "\tau .. Add user to the list\n" +
+          "\tru .. Remove user from list\n" +
+          "\tpp .. Promote user privileges \n" +
+          "\tdp .. Demote user privileges\n" +
           "\ts .. Show one message\n" +
           "\ta .. Add a new message\n" +
           "\tu .. Update an existing message\n" +
@@ -82,10 +86,18 @@ def session(messages):
             interact_.show()
         elif option == "a":
             interact_.add()
+        elif option == "au":
+            interact_.add_user()
         elif option == "u":
             interact_.update()
+        elif option == "pp":
+            interact_.promote_user()
+        elif option == "dp":
+            interact_.demote_user()
         elif option == "r":
             interact_.remove()
+        elif option == "ru":
+            interact_.remove_user()
         elif option == "l":
             print(f'Goodbye, {username}{chr(10)}')
             close_session()

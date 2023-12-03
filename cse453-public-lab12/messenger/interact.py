@@ -118,7 +118,8 @@ class Interact:
         if not message:
             print(f"ERROR! Message ID \'{id_}\' does not exist\n")
             return
-        if control.access_rights(self._level, message.get_security_level(), "write"):
+        if (control.access_rights(self._level, message.get_security_level(), "read") and
+                control.access_rights(self._level, message.get_security_level(), "write")):
             self._p_messages.update(id_, self._prompt_for_line("message"))
             return
         print(f"Dear {self._username}, unfortunately you can't update a message that has "
@@ -159,6 +160,8 @@ class Interact:
 
     def authenticate(self, username, password):  # Changed here
         id_, level = self._id_from_user(username)
+        if ID_INVALID == id_:
+            return
         if ID_INVALID != id_ and password == users[id_].password:
             self._authenticated = 1
             self._level = level
@@ -172,10 +175,55 @@ class Interact:
         for id_user in range(len(users)):
             if username == users[id_user].name:
                 return id_user, users[id_user].level
-        return ID_INVALID
+        return ID_INVALID, None
+
+    def _get_user(self, username):
+        for id_user in range(len(users)):
+            if username == users[id_user].name:
+                return users[id_user]
 
     def get_auth(self):
         return self._authenticated
+
+    def add_user(self):
+        username = self._prompt_for_line("username")
+        lvl = self._prompt_for_line("privilege, leave blank to set default access level")
+        password = self._prompt_for_line("password")
+        level = control.Level.PUBLIC
+        if lvl:
+            level = control.parse_security_level(lvl)
+        if control.access_rights(self._level, level, "read"):
+            users.append(User(username, password, level))
+            return
+        print(f"Dear {self._username}, unfortunately you aren't allowed to create user with requested "
+              f"{level.name.lower()} level which higher than yours.")
+
+    def remove_user(self):
+        username = self._prompt_for_line("username")
+        user = self._get_user(username)
+        if control.access_rights(self._level, user.level, "read"):
+            users.remove(user)
+            return
+        print(f"Dear {self._username}, unfortunately you aren't allowed to remove user with level higher than yours.")
+
+    def promote_user(self):
+        username = self._prompt_for_line("username")
+        user = self._get_user(username)
+        newlvl = control.Level(user.level.value + 1)
+        if control.access_rights(self._level, newlvl, "read"):
+            user.level = newlvl
+            return
+        print(f"Dear {self._username}, unfortunately you aren't allowed to promote user to this "
+              f"{newlvl} level which higher than yours.")
+
+    def demote_user(self):
+        username = self._prompt_for_line("username")
+        user = self._get_user(username)
+        if control.access_rights(self._level, user.level, "read"):
+            user.level = control.Level(user.level.value - 1)
+            return
+        print(f"Dear {self._username}, unfortunately you aren't allowed to demote requested user due to privileges "
+              f"limitation.")
 
     #####################################################
     # INTERACT :: DISPLAY USERS
