@@ -110,26 +110,37 @@ def login_test_generator(username, password):
 
 
 # Write down access control
-def test_add_message() -> dict:
-    return {
-        "name": "Write down access control",
-        "cases": {
-            "AdmiralAbe": "password",
-            "CaptainCharlie": "password",
-            "SeamanSam": "password",
-            "SeamanSue": "password",
-            "SeamanSly": "password",
-            "Murffkins": "password"
-        },
-        "expected": [
-            {
+def test_add_message():
+    interact_ = interact.Interact("AdmiralAbe", "password", messages)
+    # interact_._p_messages.add("test", control.Level.SECRET, interact_._username, 1/1/2023)
+    # messages_ = messages.display()
+    # interact_.add()
+    messages.Messages.add(interact_._p_messages, "test", control.Level.SECRET, interact_._username, "16 May 1940")
+    print("help")
 
-            }
-        ]
-    }
+    # result_ = messages.add
+
+# def test_add_message() -> dict:
+#     return {
+#         "name": "Write down access control",
+#         "cases": {
+#             "AdmiralAbe": "password",
+#             "CaptainCharlie": "password",
+#             "SeamanSam": "password",
+#             "SeamanSue": "password",
+#             "SeamanSly": "password",
+#             "Murffkins": "password"
+#         },
+#         "expected": [
+#             {
+
+#             }
+#         ]
+#     }
+
 
 def add_test_generator(text, textControl, author):
-    addMessage = messages.Messages.add(text, textControl, author):
+    addMessage = interact.Interact.add()
     # if addMessage.textControl 
 
         # def add(self, text: str, text_control: control.Level, author: str, date):
@@ -149,12 +160,12 @@ def run_tests(test_set: dict):
         print("===================")
 
         #Murff
-        actualAddMessage = add_test_generator()
-        print("Expected:", expected[i])
-        print("Actual:", actualAddMessage)
-        # Use a conditional expression to print "Pass" or "Fail"
-        print("Result:", "Pass" if actualAddMessage == expected[i] else "Fail")
-        print("===================")
+        # actualAddMessage = add_test_generator()
+        # print("Expected:", expected[i])
+        # print("Actual:", actualAddMessage)
+        # # Use a conditional expression to print "Pass" or "Fail"
+        # print("Result:", "Pass" if actualAddMessage == expected[i] else "Fail")
+        # print("===================")
 
        
 def driver_program():
@@ -165,10 +176,13 @@ def driver_program():
         if choice == "1":
             print("\nRun Access Control sets of tests")
             run_tests(test_login())
-            run_tests(test_add_message())
+            # run_tests(test_add_message())
             # run_tests(test_union())
             # run_tests(test_additional_statement())
             # run_tests(test_comment())
+            continue
+        if choice == "3":
+            test_add_message()
             continue
         if choice == "h":
             print_menu()
@@ -182,6 +196,7 @@ def print_menu():
     print("""
     1. Set of tests\n
     2. Set of Update/Delete tests\n
+    3. Set of write tests\n
     h. Display menu\n
     q. Exit\n""")
 
