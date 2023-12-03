@@ -165,11 +165,7 @@ def driver_program():
         if choice == "1":
             print("\nRun Access Control sets of tests")
             run_tests(test_login())
-        # elif choice == "2":
-        #     print("\nRun Update/Delete sets of tests")
-        #     run_update_delete_tests(test_update_delete_messages())
-            # run_tests(test_tautology())
-            # run_tests(test_add_message())
+            run_tests(test_add_message())
             # run_tests(test_union())
             # run_tests(test_additional_statement())
             # run_tests(test_comment())
