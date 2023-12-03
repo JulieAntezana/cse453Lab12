@@ -79,20 +79,20 @@ def test_update_delete_messages() -> dict: # Austin test cases
             {
                 "login_result": "Welcome, ______. Please select an option:",
                 "update_messages": [
-                    ("99", "Invalid message ID. Please enter a valid ID."),
-                    ("101", "Successfully updated message. Message ID '101'."),
-                    ("", "Invalid message ID. Please enter a valid ID. ''."),
-                    ("108", "SeamanSly = Message successfully updated, Murffkins = Unable to update message due to security level, CaptainCharlie = Message successfully updated, AdmiralAbe = Message successfully updated "),
-                    ("105", "SeamanSly = Unable to update message due to security level, Murffkins = Unable to update message due to security level, CaptainCharlie = Message successfully updated, AdmiralAbe = Message successfully updated "),
-                    ("109", "SeamanSly = Unable to update message due to security level, Murffkins = Unable to update message due to security level, CaptainCharlie = Unable to update message due to security level, AdmiralAbe = Message successfully updated "),
+                    ("99", "ERROR! Message ID '99' does not exist."),
+                    ("101", "All: Dear _______, unfortunately you can't update a message that has public level. Murffkins: Message successfully updates"),
+                    ("", "ERROR "),
+                    ("108", "SeamanSly = unfortunately you can't update a message that has privileged level, Murffkins = unfortunately you can't update a message that has privileged level, CaptainCharlie = Message successfully updated, AdmiralAbe = unfortunately you can't update a message that has privileged level. "),
+                    ("105", "SeamanSly = Message updates successfully, Murffkins = unfortunately you can't update a message that has confidential level., CaptainCharlie = Message successfully updates, AdmiralAbe = unfortunately you can't update a message that has confidential level."),
+                    ("109", "SeamanSly = Unfortunately you can't update a message that has secret level., Murffkins = unfortunately you can't update a message that has secret level., CaptainCharlie = unfortunately you can't update a message that has secret level, AdmiralAbe = Message successfully updates "),
                 ],
                 "delete_messages": [
-                    ("99", "Invalid message ID. Please enter a valid ID."),
-                    ("101", "Successfully deleted message. Message ID '101'."),
-                    ("", "Invalid message ID. Please enter a valid ID. ''."),
-                    ("108", "SeamanSly = Message successfully deleted, Murffkins = Unable to delete message due to security level, CaptainCharlie = Message successfully deleted, AdmiralAbe = Message successfully deleted "),
-                    ("105", "SeamanSly = Unable to delete message due to security level, Murffkins = Unable to delete message due to security level, CaptainCharlie = Message successfully deleted, AdmiralAbe = Message successfully deleted "),
-                    ("109", "SeamanSly = Unable to delete message due to security level, Murffkins = Unable to delete message due to security level, CaptainCharlie = Unable to delete message due to security level, AdmiralAbe = Message successfully deleted "),
+                    ("99", "ERROR "),
+                    ("101", "Dear _____, unfortunately you can't delete a message that has public level. Murffkins: Message successfully deletes"),
+                    ("", "ERROR "),
+                    ("108", "SeamanSly = Unfortunately you can't delete a message that has privileged level, Murffkins = unfortunately you can't delete a message that has privileged level, CaptainCharlie = Message successfully deleted, AdmiralAbe = unfortunately you can't delete a message that has privileged level."),
+                    ("105", "SeamanSly = Message deletes successfully, Murffkins = unfortunately you can't delete a message that has confidential level., CaptainCharlie = Message successfully deleted, AdmiralAbe = unfortunately you can't delete a message that has confidential level. "),
+                    ("109", "SeamanSly = Unfortunately you can't delete a message that has secret level, Murffkins = unfortunately you can't delete a message that has secret level., CaptainCharlie = unfortunately you can't delete a message that has secret level, AdmiralAbe = Message successfully deletes "),
                 ]
             },
             {
