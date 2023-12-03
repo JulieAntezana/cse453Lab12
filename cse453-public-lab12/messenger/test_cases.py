@@ -108,6 +108,34 @@ def login_test_generator(username, password):
         return "Invalid username or password."
     return f"Welcome, {username}. Please select an option:"
 
+
+# Write down access control
+def test_add_message() -> dict:
+    return {
+        "name": "Write down access control",
+        "cases": {
+            "AdmiralAbe": "password",
+            "CaptainCharlie": "password",
+            "SeamanSam": "password",
+            "SeamanSue": "password",
+            "SeamanSly": "password",
+            "Murffkins": "password"
+        },
+        "expected": [
+            {
+
+            }
+        ]
+    }
+
+def add_test_generator(text, textControl, author):
+    addMessage = messages.Messages.add(text, textControl, author):
+    # if addMessage.textControl 
+
+        # def add(self, text: str, text_control: control.Level, author: str, date):
+            # m = message.Message(text, text_control, author, date)
+            # self._messages.append(m)
+
 def run_tests(test_set: dict):
     print("\n{}\n".format(test_set.get("name")))
     cases = test_set.get('cases')
@@ -119,6 +147,15 @@ def run_tests(test_set: dict):
         # Use a conditional expression to print "Pass" or "Fail"
         print("Result:", "Pass" if actual == expected[i] else "Fail")
         print("===================")
+
+        #Murff
+        actualAddMessage = add_test_generator()
+        print("Expected:", expected[i])
+        print("Actual:", actualAddMessage)
+        # Use a conditional expression to print "Pass" or "Fail"
+        print("Result:", "Pass" if actualAddMessage == expected[i] else "Fail")
+        print("===================")
+
        
 def driver_program():
     print_menu()
@@ -132,6 +169,7 @@ def driver_program():
         #     print("\nRun Update/Delete sets of tests")
         #     run_update_delete_tests(test_update_delete_messages())
             # run_tests(test_tautology())
+            # run_tests(test_add_message())
             # run_tests(test_union())
             # run_tests(test_additional_statement())
             # run_tests(test_comment())
